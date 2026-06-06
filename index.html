@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="مزرعة الليوان"/>
+<meta name="theme-color" content="#1E3B25"/>
+<title>مزرعة الليوان 🌿</title>
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{background:#f4f6f0;font-family:'SF Arabic','Geeza Pro',Arial,sans-serif;direction:rtl;color:#1C2B1E;overscroll-behavior:none;}
+.hdr{background:linear-gradient(135deg,#1E3B25,#2A4F32);padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.25);}
+.hdr-t{color:#fff;font-size:15px;font-weight:900;}.hdr-s{color:#a5d6a7;font-size:10px;}.clk{color:#c8e6c9;font-size:13px;font-weight:700;text-align:left;}
+.wrap{display:flex;min-height:calc(100vh - 58px);}
+.sb{width:196px;background:#fff;border-left:1px solid #e8e8e8;padding:14px 0;flex-shrink:0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto;}
+.nb{width:100%;border:none;border-right:3px solid transparent;background:none;color:#666;padding:11px 18px;font-size:13px;cursor:pointer;text-align:right;display:flex;align-items:center;gap:10px;font-family:'SF Arabic','Geeza Pro',Arial,sans-serif;font-weight:500;transition:all .15s;}
+.nb.on{background:#f1f8e9;color:#2A4F32;border-right-color:#3D6B47;font-weight:800;}
+.nb-ic{font-size:17px;}.nb-lbl{font-size:13px;}
+.main{flex:1;padding:22px 18px;max-width:880px;margin:0 auto;width:100%;}
+.pg-t{font-size:21px;font-weight:900;margin-bottom:3px;}
+.pg-s{font-size:12px;color:#888;margin-bottom:18px;}
+.card{background:#fff;border-radius:13px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:14px;}
+.grid4{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px;margin-bottom:18px;}
+.sc{background:#fff;border-radius:13px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.07);border-top:4px solid #3D6B47;cursor:pointer;}
+.sc-ic{font-size:24px;margin-bottom:4px;}.sc-lb{font-size:11px;color:#888;}.sc-vl{font-size:24px;font-weight:900;color:#2A4F32;}
+.banner{background:linear-gradient(135deg,#1E3B25,#3D6B47);border-radius:13px;padding:18px 20px;color:#fff;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.pbar{background:#e0ede2;border-radius:50px;height:9px;overflow:hidden;margin-bottom:18px;}
+.pfill{height:100%;border-radius:50px;transition:width .8s;}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;}
+.tab{padding:7px 15px;border-radius:18px;border:none;cursor:pointer;font-size:12px;font-family:'SF Arabic','Geeza Pro',Arial,sans-serif;font-weight:700;background:#eee;color:#555;transition:all .15s;}
+.tab.on{background:#3D6B47;color:#fff;}
+.chk{display:flex;align-items:center;gap:10px;padding:8px 11px;border-radius:8px;margin-bottom:5px;cursor:pointer;border:1px solid #e0e0e0;background:#fff;transition:all .2s;}
+.chk.dn{background:#e8f5e9;border-color:#66bb6a;}
+.chk input{width:17px;height:17px;accent-color:#3D6B47;cursor:pointer;flex-shrink:0;}
+.chk-lb{flex:1;font-size:13px;}.chk.dn .chk-lb{text-decoration:line-through;color:#2A4F32;}
+.chk-tm{font-size:10px;color:#999;}
+.btn{border:none;border-radius:8px;padding:9px 16px;font-size:13px;cursor:pointer;font-family:'SF Arabic','Geeza Pro',Arial,sans-serif;font-weight:700;transition:all .15s;}
+.btn-g{background:#3D6B47;color:#fff;}.btn-g:hover{background:#2A4F32;}
+.btn-wa{background:#25D366;color:#fff;}
+.btn-r{background:#fff0f0;border:1px solid #ffcdd2;color:#c62828;}
+.btn-e{background:#e8f5e9;border:1px solid #c8e6c9;color:#2A4F32;}
+.btn-full{width:100%;padding:11px;font-size:14px;margin-bottom:12px;}
+.att-c{background:#fff;border-radius:13px;padding:15px 17px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:12px;border-right:5px solid #3D6B47;}
+.att3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;}
+.abox{border-radius:8px;padding:7px 10px;text-align:center;}
+.abox-l{font-size:10px;color:#888;}.abox-v{font-size:14px;font-weight:800;}
+.att-btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.att-btns .btn{flex:1;min-width:90px;padding:8px;}
+.inc-c{background:#fff;border-radius:11px;padding:13px 17px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:10px;}
+.bdg{border-radius:18px;padding:2px 9px;font-size:11px;font-weight:700;}
+.zg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;}
+.zc{background:#fff;border-radius:11px;padding:13px 15px;box-shadpw:0 2px 8px rgba(0,0,0,.06);border-right:4px solid #3D6B47;}
+.zsel{width:100%;padding:7px 10px;border-radius:8px;font-family:'SF Arabic','Geeza Pro',Arial,sans-serif;font-size:13px;font-weight:700;cursor:pointer;direction:rtl;border:1px solid #ddd;}
+.pt-c{background:#fff;border-radius:13px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:10px;}
+.pt-h{width:100%;background:none;border:none;padding:15px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-family:'SF Arabic','Geeza Pro',Arial,sans-serif;}
+.pt-b{padding:0 18px 16px;}
+.inp{width:100%;border:1px solid #ddd;border-radius:8px;padding:8px 11px;font-size:13px;font-family:'SF Arabic','Geeza Pro',Arial,sans-serif;direction:rtl;outline:none;background:#fafafa;margin-bottom:9px;}
+.rrow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #eee;font-size:13px;}
+.arch-c{background:#fff;border-radius:13px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden;margin-bottom:10px;border:2px solid transparent;}
+.arch-c.op{border-color:#3D6B47;}
+.arch-h{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.mech-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:9px;}
+.mech-c{background:#f9f9f9;border-radius:9px;padding:9px 13px;display:flex;gap:9px;align-items:center;border:1px solid #eee;}
+.set-e{background:#fff;border-radius:13px;padding:15px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:10px;}
+.close-bn{background:linear-gradient(135deg,#7A3B1E,#A05025);}
+.info-box{border-radius:9px;padding:11px 15px;font-size:13px;margin-bottom:14px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{padding:7px 11px;text-align:right;font-weight:700;white-space:nowrap;}
+td{padding:7px 11px;border-bottom:1px solid #f0f0f0;}
+textarea{width:100%;border:1px solid #ddd;border-radius:8px;padding:8px 11px;font-size:13px;font-family:'SF Arabic','Geeza Pro',Arial,sans-serif;direction:rtl;resize:vertical;outline:none;background:#fafafa;}
+select{font-family:'SF Arabic','Geeza Pro',Arial,sans-serif;}
+.bnav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:5px 0;justify-content:space-around;z-index:99;}
+.bnb{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:1px;padding:3px 5px;cursor:pointer;color:#bbb;font-family:'SF Arabic','Geeza Pro',Arial,sans-serif;}
+.bnb.on{color:#3D6B47;}.bnb-ic{font-size:19px;}.bnb-lb{font-size:9px;font-weight:700;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:#3D6B47;border-radius:4px;}
+@media(max-width:680px){.sb{display:none!important;}.bnav{display:flex!important;}.main{padding:14px 12px 76px;}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ══════════════ DATA ══════════════
+const DAYS=["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+const ZONES_IN=[{id:"A",name:"واجهة المكان (A)"},{id:"B",name:"منطقة النُزل (B)"},{id:"C",name:"تنوش والجلسات (C)"},{id:"D",name:"المتحف (D)"},{id:"E",name:"الرسمة (E)"},{id:"F",name:"البوثات والسوق (F)"},{id:"G",name:"السبيل (G)"}];
+const ZONES_OUT=[{id:"STR",name:"الستر"},{id:"P1",name:"المواقف الرئيسية (1)"},{id:"P2",name:"مواقف حفت المسجد (2)"},{id:"P3",name:"مواقف شارع عاصم (3)"},{id:"P4",name:"المواقف اللي فوق (4)"},{id:"VIP",name:"مواقف VIP"}];
+const T_FARM=["جاهزية ونظافة المنطقة A","جاهزية ونظافة المنطقة B","جاهزية ونظافة المنطقة C","جاهزية ونظافة المنطقة D","جاهزية ونظافة المنطقة E","جاهزية ونظافة المنطقة F","جاهزية ونظافة المنطقة G","نظافة الممرات","نظافة الجلسات","نظافة النُزل","نظافة المتحف","نظافة مجلس التسعينات","نظافة الراندات","نظافة البير","نظافة المسجد","نظافة دورات المياه"];
+const T_OUT=["ترتيب المواقف 1","نظافة المواقف 1","ترتيب المواقف 2","نظافة المواقف 2","ترتيب المواقف 3","نظافة المواقف 3","ترتيب المواقف 4","نظافة المواقف 4","ترتيب مواقف VIP","نظافة مواقف VIP","ترتيب الشتر","نظافة الشتر","نظافة الشارع","فراغ الحاويات"];
+const T_GATE=["نظافة البوابة","ورق الشبكة","الأسوار","الباجات","الخرائط","تشغيل الإضاءة","ترتيب الأقماع","التأكد من جدول الضيوف"];
+const T_MID=["تور على المناطق A,B,C,D,E,F,G","تشييك على النُزل","تشييك على الراندات","تشييك على المتحف","تشييك على دورات المياه","تشييك المسجد","تشييك على المواقف","تشييك على سيارات الفولف"];
+const C_FARM=["التأكد من نظافة المنطقة A وإغلاقها","التأكد من نظافة المنطقة B وإغلاقها","التأكد من نظافة المنطقة C وإغلاقها","التأكد من نظافة المنطقة D وإغلاقها","التأكد من نظافة المنطقة E وإغلاقها","التأكد من نظافة المنطقة F وإغلاقها","التأكد من نظافة المنطقة G وإغلاقها","جمع النفايات من جميع المناطق","إطفاء الإضاءة الداخلية","التأكد من إغلاق الأبواب الداخلية","تشييك نظافة دورات المياه","تشييك نظافة المسجد","تشييك البير وإقفاله"];
+const C_OUT=["تشييك نظافة المواقف الخارجية","جمع أقماع المواقف","التأكد من إغلاق بوابات المواقف","تشييك سيارات القولف وإيقافها في مكانها","تشييك منطقة الستر","إطفاء إضاءة المواقف الخارجية"];
+const C_GATE=["إغلاق البوابة الرئيسية","إطفاء إضاءة البوابة","التأكد من عدم وجود زوار داخل المزرعة","تشييك الأسوار","جمع الباجات والخرائط المتبقية","التشييك على الكلوز تاسك في الملف"];
+const C_MID=["جولة نهائية على جميع المناطق A,B,C,D,E,F,G","التأكد من خروج جميع الزوار","التشييك على الخزان","التشييك على الكهرب وإيقافه","تشييك المواقف والشارع","التأكد من خروج جميع البراندات","إغلاق الباب العلوي"];
+const DEF_STAFF=[{id:1,name:"أحمد",role:"مشرف رئيسي",zone:"إدارة عامة",color:"#2A4F32"},{id:2,name:"عبدالله",role:"مشرف البوابة",zone:"البوابة والخارج",color:"#7A3B1E"},{id:3,name:"موظف 1",role:"داخلي",zone:"المناطق A-C",color:"#1A5276"},{id:4,name:"موظف 2",role:"داخلي",zone:"المناطق D-G",color:"#6C3483"},{id:5,name:"موظف 3",role:"خارجي",zone:"المواقف 1-2",color:"#784212"},{id:6,name:"موظف 4",role:"خارجي",zone:"المواقف 3-VIP",color:"#145A32"}];
+const DEF_MECH=[{key:"open",icon:"🔓",label:"فتح الفعالية",owner:"أحمد",time:"10:00 AM"},{key:"gov",icon:"🏛️",label:"الجهات الحكومية",owner:"عبدالله",time:"عند الحاجة"},{key:"brands_in",icon:"🚛",label:"دخول البراندات",owner:"عبدالله",time:"10:00 AM / 1:00 PM"},{key:"brands_out",icon:"🚚",label:"خروج البراندات",owner:"عبدالله",time:"7:00 PM / 9:40 PM"},{key:"vip",icon:"⭐",label:"استقبال VIP",owner:"عبدالله",time:"حسب الجدول"},{key:"clean",icon:"🧹",label:"آلية النظافة",owner:"الفريق",time:"متكرر"},{key:"safety",icon:"🔧",label:"الصيانة والسلامة",owner:"عبدالله",time:"بداية/نهاية"},{key:"close",icon:"🔒",label:"إغلاق الفعالية",owner:"أحمد",time:"11:00 PM"}];
+const DEF_PROTO=[{key:"open",icon:"🔓",title:"فتح وإغلاق الفعالية",color:"#2A4F32",steps:["التشييك على الفعالية في ملف الأوبن تاسك قبل الفتح","يتم فتح الفعالية الساعة 10:00 AM","يتم فتح الباب العلوي للبراندات المداومة الساعة 1:00 PM","يتم التشييك على الفعالية في ملف الكلوز تاسك الساعة 11:00 PM"]},{key:"vip",icon:"⭐",title:"بروتوكول استقبال VIP",color:"#F9A825",steps:["عمل جدول بأوقات الزيارات وإعطاء خبر للمنظمين قبلها بيوم","يتم إرشاد الضيف من النقطة (2) خارج إلى مواقف VIP","يتم إستقباله من أحمد أو عبدالله ويعمل تور كامل"]},{key:"brands",icon:"🚛",title:"آلية دخول وخروج البراندات",color:"#1A5276",steps:["دخولهم مع البوابة المخصصة لهم","بوابة دخول البراندات هي البوابة العلوية (باب المسجد)","وقت دخول الأغراض: 10:00 AM أو 1:00 PM","يتم فتح الباب الساعة 9:40 PM لمن يريد إخراج أغراضه"]},{key:"gov",icon:"🏛️",title:"آلية الجهات الحكومية",color:"#2E7D32",steps:["يتم استقبالهم من البوابة وإخبار المشرف عبدالله","الترحيب فيهم ومعاملتهم معاملة خاصة","إذا تصعد الأمر يتم التواصل مع مشعل"]},{key:"clean",icon:"🧹",title:"آلية النظافة",color:"#7B1FA2",steps:["الأوبن تاسك - وقبل صلاة العصر - وبعد صلاة المغرب - الكلوز تاسك","خارج: المواقف - الشارع - مواقف VIP - سيارات القولف","داخل: الممرات - النُزل - مجلس التسعينات - دورات المياه - المسجد - البير"]},{key:"safety",icon:"🔧",title:"آلية الصيانة والسلامة",color:"#BF360C",steps:["يتم التشييك على الخزان بداية الدوام وقبل صلاة العصر ونهاية الدوام","يتم التشييك على الكهرب بداية الدوام ونهايته","يتم التشييك على البير وعلى إقفاله"]},{key:"miss",icon:"🔍",title:"آلية إكمال النواقص",color:"#00695C",steps:["التشييك بداية الدوام ونهايته","السواير - الباجات - خرائط - القايِن - الصابون","أكياس النفايات - أدوات التنظيف والتنظيم"]}];
+const PAGES=[{k:"dash",ic:"🏠",lb:"الرئيسية"},{k:"open",ic:"✅",lb:"أوبن تاسك"},{k:"close",ic:"🔒",lb:"كلوز تاسك"},{k:"att",ic:"👥",lb:"الحضور"},{k:"zones",ic:"🗺️",lb:"المناطق"},{k:"inc",ic:"📋",lb:"البلاغات"},{k:"proto",ic:"📖",lb:"البروتوكولات"},{k:"rep",ic:"📊",lb:"التقرير"},{k:"arch",ic:"🗂️",lb:"الأرشيف"},{k:"set",ic:"⚙️",lb:"الإعدادات"}];
+const COLORS=["#2A4F32","#1A5276","#7A3B1E","#6C3483","#784212","#145A32","#BF360C","#00695C"];
+const INC_TYPES=["ملاحظة","شكوى زائر","عطل / صيانة","نقص مستلزمات","حادث","ضيف VIP","جهة حكومية","مفقودات","أمن وسلامة"];
+const STATUS_OPTS=["✅ جاهز","🟡 يحتاج متابعة","🔴 مشكلة","🔧 صيانة"];
+
+// ══════════════ STORAGE ══════════════
+function ld(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
+function mkT(arr){return arr.map(l=>({l,d:false,t:null}));}
+
+// ══════════════ STATE ══════════════
+const S={
+  pg:"dash",
+  tasks:ld("lw_t",{farm:mkT(T_FARM),out:mkT(T_OUT),gate:mkT(T_GATE),mid:mkT(T_MID)}),
+  close:ld("lw_c",{farm:mkT(C_FARM),out:mkT(C_OUT),gate:mkT(C_GATE),mid:mkT(C_MID)}),
+  att:ld("lw_a",{}),
+  inc:ld("lw_i",[]),
+  zones:ld("lw_z",{}),
+  arch:ld("lw_ar",{}),
+  staff:ld("lw_st",DEF_STAFF),
+  mech:ld("lw_m",DEF_MECH),
+  proto:ld("lw_p",DEF_PROTO),
+  // UI state
+  tTab:"farm",cTab:"farm",sTab:"staff",openProto:null,archOpen:null,
+  incShow:false,incType:"ملاحظة",incZone:"",incDesc:"",incRep:"",
+  addStaff:false,newSt:{name:"",role:"",zone:""},editSt:null,
+  addProto:false,newPr:{title:"",icon:"📋",steps:[""]},editProto:null,
+  addMech:false,
+};
+
+function set(patch){Object.assign(S,patch);render();}
+function setSv(key,lk,val){S[key]=val;sv(lk,val);render();}
+
+// ══════════════ HELPERS ══════════════
+function ft(d=new Date()){return d.toLocaleTimeString("ar-SA",{hour:"2-digit",minute:"2-digit"});}
+function fd(d=new Date()){return d.toLocaleDateString("ar-SA-u-ca-islamic",{day:"numeric",month:"long",year:"numeric"});}
+function gday(){return DAYS[new Date().getDay()];}
+function allT(){return [...S.tasks.farm,...S.tasks.out,...S.tasks.gate,...S.tasks.mid];}
+function doneT(){return allT().filter(t=>t.d).length;}
+function pct(){const a=allT();return a.length?Math.round(doneT()/a.length*100):0;}
+function allC(){return [...S.close.farm,...S.close.out,...S.close.gate,...S.close.mid];}
+function doneC(){return allC().filter(t=>t.d).length;}
+function pctC(){const a=allC();return a.length?Math.round(doneC()/a.length*100):0;}
+function present(){return S.staff.filter(e=>{const r=S.att[e.id]||{};return r.in&&!r.out;}).length;}
+function todayInc(){const ds=new Date().toDateString();return S.inc.filter(i=>new Date(i.ts).toDateString()===ds);}
+function zIssues(){return[...ZONES_IN,...ZONES_OUT].filter(z=>S.zones[z.id]&&S.zones[z.id]!=="✅ جاهز");}
+function fmtD(rec){if(!rec||!rec.in)return"—";const e=rec.out?new Date(rec.out):new Date();const m=Math.round((e-new Date(rec.in))/60000);return Math.floor(m/60)+"س "+m%60+"د";}
+function fmtT(iso){return iso?new Date(iso).toLocaleTimeString("ar-SA",{hour:"2-digit",minute:"2-digit"}):"—";}
+function scol(s){return{"✅ جاهز":"#2e7d32","🟡 يحتاج متابعة":"#f57f17","🔴 مشكلة":"#c62828","🔧 صيانة":"#6a1b9a"}[s]||"#888";}
+function tcol(t){return{"ملاحظة":"#1565C0","شكوى زائر":"#D4651A","عطل / صيانة":"#6A1B9A","نقص مستلزمات":"#E65100","حادث":"#B71C1C","ضيف VIP":"#F9A825","جهة حكومية":"#2E7D32","مفقودات":"#37474F","أمن وسلامة":"#BF360C"}[t]||"#888";}
+function nav(p){set({pg:p});}
+function shareWA(txt){window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank");}
+
+// ══════════════ ACTIONS ══════════════
+function togT(list,i){const t=[...S.tasks[list]];t[i]={...t[i],d:!t[i].d,t:!t[i].d?new Date().toISOString():null};setSv("tasks","lw_t",{...S.tasks,[list]:t});}
+function rstT(list){setSv("tasks","lw_t",{...S.tasks,[list]:S.tasks[list].map(x=>({...x,d:false,t:null}))});}
+function togC(list,i){const t=[...S.close[list]];t[i]={...t[i],d:!t[i].d,t:!t[i].d?new Date().toISOString():null};setSv("close","lw_c",{...S.close,[list]:t});}
+function rstC(list){setSv("close","lw_c",{...S.close,[list]:S.close[list].map(x=>({...x,d:false,t:null}))});}
+function recIn(id){const a={...S.att,[id]:{...(S.att[id]||{}),in:new Date().toISOString(),out:null}};setSv("att","lw_a",a);}
+function recOut(id){const a={...S.att,[id]:{...(S.att[id]||{}),out:new Date().toISOString()}};setSv("att","lw_a",a);}
+function addNote(id,n){const a={...S.att,[id]:{...(S.att[id]||{}),note:n}};setSv("att","lw_a",a);}
+function addInc(){if(!S.incDesc.trim())return;const i=[...S.inc,{type:S.incType,zone:S.incZone,desc:S.incDesc,reporter:S.incRep,ts:new Date().toISOString(),id:Date.now()}];setSv("inc","lw_i",i);set({incShow:false,incType:"ملاحظة",incZone:"",incDesc:"",incRep:""});}
+function delInc(id){setSv("inc","lw_i",S.inc.filter(i=>i.id!==id));}
+function setZone(id,v){const z={...S.zones,[id]:v};setSv("zones","lw_z",z);}
+function addStaff(){if(!S.newSt.name.trim())return;const e={id:Date.now(),name:S.newSt.name,role:S.newSt.role||"موظف",zone:S.newSt.zone||"عام",color:COLORS[S.staff.length%COLORS.length]};setSv("staff","lw_st",[...S.staff,e]);set({addStaff:false,newSt:{name:"",role:"",zone:""}});}
+function updStaff(){const st=S.staff.map(e=>e.id===S.editSt.id?S.editSt:e);setSv("staff","lw_st",st);set({editSt:null});}
+function delStaff(id){if(!confirm("تأكيد الحذف؟"))return;setSv("staff","lw_st",S.staff.filter(e=>e.id!==id));}
+function addProto(){if(!S.newPr.title.trim())return;const p={key:"c"+Date.now(),icon:S.newPr.icon,title:S.newPr.title,color:"#2A4F32",steps:S.newPr.steps.filter(s=>s.trim())};setSv("proto","lw_p",[...S.proto,p]);set({addProto:false,newPr:{title:"",icon:"📋",steps:[""]}});}
+function delProto(i){if(!confirm("تأكيد الحذف؟"))return;setSv("proto","lw_p",S.proto.filter((_,j)=>j!==i));}
+function updProtoStep(pi,si,v){const p=S.proto.map((pr,i)=>i===pi?{...pr,steps:pr.steps.map((s,j)=>j===si?v:s)}:pr);setSv("proto","lw_p",p);}
+function addStep(pi){const p=S.proto.map((pr,i)=>i===pi?{...pr,steps:[...pr.steps,""]}:pr);setSv("proto","lw_p",p);}
+function delStep(pi,si){const p=S.proto.map((pr,i)=>i===pi?{...pr,steps:pr.steps.filter((_,j)=>j!==si)}:pr);setSv("proto","lw_p",p);}
+function updProtoTitle(pi,v){const p=S.proto.map((pr,i)=>i===pi?{...pr,title:v}:pr);setSv("proto","lw_p",p);}
+function updMech(mi,field,v){const m=S.mech.map((x,i)=>i===mi?{...x,[field]:v}:x);setSv("mech","lw_m",m);}
+function delMech(mi){if(!confirm("تأكيد الحذف؟"))return;setSv("mech","lw_m",S.mech.filter((_,i)=>i!==mi));}
+function addMech(){setSv("mech","lw_m",[...S.mech,{key:"n"+Date.now(),icon:"📌",label:"آلية جديدة",owner:"",time:""}]);}
+function updTask(list,i,v){const t=[...S.tasks[list]];t[i]={...t[i],l:v};setSv("tasks","lw_t",{...S.tasks,[list]:t});}
+function delTask(list,i){const t=S.tasks[list].filter((_,j)=>j!==i);setSv("tasks","lw_t",{...S.tasks,[list]:t});}
+function addTask(list){setSv("tasks","lw_t",{...S.tasks,[list]:[...S.tasks[list],{l:"مهمة جديدة",d:false,t:null}]});}
+function updClose(list,i,v){const t=[...S.close[list]];t[i]={...t[i],l:v};setSv("close","lw_c",{...S.close,[list]:t});}
+function delClose(list,i){const t=S.close[list].filter((_,j)=>j!==i);setSv("close","lw_c",{...S.close,[list]:t});}
+function addClose(list){setSv("close","lw_c",{...S.close,[list]:[...S.close[list],{l:"مهمة إغلاق جديدة",d:false,t:null}]});}
+function updZoneName(arr,zi,v){arr[zi]={...arr[zi],name:v};render();}
+
+function saveArch(){
+  const rows=S.staff.map(e=>{const r=S.att[e.id]||{};return{name:e.name,role:e.role,in:fmtT(r.in),out:fmtT(r.out),dur:fmtD(r)};});
+  const ts=[{lb:"أوبن تاسك المزرعة",list:S.tasks.farm},{lb:"أوبن تاسك خارج",list:S.tasks.out},{lb:"مهام البوابة",list:S.tasks.gate},{lb:"مهام وسط اليوم",list:S.tasks.mid}].map(({lb,list})=>({lb,d:list.filter(t=>t.d).length,tot:list.length}));
+  const dk=new Date().toLocaleDateString("ar-SA",{year:"numeric",month:"long",day:"numeric"});
+  const a={...S.arch,[dk]:{pct:pct(),pctC:pctC(),present:present(),incCount:todayInc().length,zIssues:zIssues().length,rows,ts,inc:todayInc(),saved:new Date().toISOString()}};
+  setSv("arch","lw_ar",a);alert("✅ تم حفظ تقرير اليوم في الأرشيف!");
+}
+
+function shareReport(){
+  const ln=["🌿 *مزرعة الليوان — التقرير اليومي*","📅 "+fd(),"─────────────────","✅ أوبن تاسك: *"+pct()+"%*","🔒 كلوز تاسك: *"+pctC()+"%*","👥 حضروا: *"+present()+"*","⚠️ بلاغات: *"+todayInc().length+"*"];
+  [{lb:"أوبن تاسك المزرعة",list:S.tasks.farm},{lb:"أوبن تاسك خارج",list:S.tasks.out},{lb:"مهام البوابة",list:S.tasks.gate},{lb:"مهام وسط اليوم",list:S.tasks.mid}].forEach(({lb,list})=>{const d=list.filter(t=>t.d).length;ln.push("• "+lb+": "+d+"/"+list.length);});
+  ln.push("","👥 *الحضور:*");
+  S.staff.forEach(e=>{const r=S.att[e.id]||{};ln.push("• "+e.name+": "+(r.in?fmtT(r.in)+" ← "+fmtT(r.out)+" ("+fmtD(r)+")":"غائب"));});
+  if(todayInc().length){ln.push("","📋 *البلاغات:*");todayInc().forEach(i=>ln.push("• ["+i.type+"] "+i.desc));}
+  ln.push("","_نظام مزرعة الليوان_ 🌿");
+  shareWA(ln.join("\n"));
+}
+
+// ══════════════ RENDER PAGES ══════════════
+function pgDash(){
+  const p=pct(),pc=pctC(),d=doneT(),a=allT().length;
+  return`<div class="pg-t">مرحباً بك في مزرعة الليوان 🌿</div>
+<div class="pg-s">${fd()} — ${ft()} | ${gday()}</div>
+<div class="banner">
+  <div><div style="font-size:12px;opacity:.8">الموسم 2025 | يونيو – أغسطس</div><div style="font-size:18px;font-weight:800;margin-top:4px">الفعالية جارية ✅</div></div>
+  <div style="display:flex;gap:20px;flex-wrap:wrap">
+    <div style="text-align:center"><div style="font-size:32px;font-weight:900">${p}%</div><div style="font-size:11px;opacity:.8">أوبن تاسك</div></div>
+    <div style="text-align:center"><div style="font-size:32px;font-weight:900">${pc}%</div><div style="font-size:11px;opacity:.8">كلوز تاسك</div></div>
+  </div>
+</div>
+<div class="pbar"><div class="pfill" style="width:${p}%;background:#3D6B47"></div></div>
+<div class="grid4">
+  <div class="sc" onclick="nav('open')" style="border-top-color:#3D6B47"><div class="sc-ic">✅</div><div class="sc-lb">مهام منجزة</div><div class="sc-vl">${d}/${a}</div></div>
+  <div class="sc" onclick="nav('att')" style="border-top-color:#1A5276"><div class="sc-ic">👥</div><div class="sc-lb">موظفون حاضرون</div><div class="sc-vl" style="color:#1A5276">${present()}</div></div>
+  <div class="sc" onclick="nav('inc')" style="border-top-color:#D4651A"><div class="sc-ic">⚠️</div><div class="sc-lb">بلاغات اليوم</div><div class="sc-vl" style="color:#D4651A">${todayInc().length}</div></div>
+  <div class="sc" onclick="nav('close')" style="border-top-color:#7A3B1E"><div class="sc-ic">🔒</div><div class="sc-lb">كلوز تاسك</div><div class="sc-vl" style="color:#7A3B1E">${doneC()}/${allC().length}</div></div>
+</div>
+<div class="card"><div style="font-size:14px;font-weight:800;color:#2A4F32;margin-bottom:12px">آليات اليوم التشغيلية</div>
+<div class="mech-g">${S.mech.map(m=>`<div class="mech-c"><span style="font-size:20px">${m.icon}</span><div><div style="font-size:12px;font-weight:700">${m.label}</div><div style="font-size:10px;color:#888">${m.owner} • ${m.time}</div></div></div>`).join("")}</div></div>
+${todayInc().length?`<div class="card" style="background:#fff7f0;border:1px solid #f4a261"><div style="font-size:13px;font-weight:800;color:#D4651A;margin-bottom:8px">آخر البلاغات</div>${todayInc().slice(-3).reverse().map(i=>`<div style="font-size:12px;padding:5px 0;border-bottom:1px dashed #f4a261"><span style="font-weight:700;color:#D4651A">${i.type}</span> — ${i.desc}</div>`).join("")}</div>`:""}`;
+}
+
+function chkList(list,type){
+  const tabs=[{k:"farm",lb:"🌿 المزرعة"},{k:"out",lb:"🅿️ خارج"},{k:"gate",lb:"🚪 البوابة"},{k:"mid",lb:type==="open"?"☀️ وسط اليوم":"🔒 إغلاق نهائي"}];
+  const curTab=type==="open"?S.tTab:S.cTab;
+  const cur=list[curTab];
+  const dn=cur.filter(t=>t.d).length;
+  const allL=[...list.farm,...list.out,...list.gate,...list.mid];
+  const totDn=allL.filter(t=>t.d).length;
+  const totPct=allL.length?Math.round(totDn/allL.length*100):0;
+  const col=type==="open"?"#3D6B47":"#7A3B1E";
+  const togName=type==="open"?"togT":"togC";
+  const rst=type==="open"?rstT:rstC;
+  return`
+<div class="tabs">${tabs.map(t=>`<button class="tab ${curTab===t.k?"on":""}" onclick="set({${type==="open"?"tTab":"cTab"}:'${t.k}'})">${t.lb}</button>`).join("")}</div>
+<div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px">
+  <div style="font-size:13px;font-weight:700;color:${col}">${dn} / ${cur.length} مهمة | إجمالي: ${totPct}%</div>
+  <button class="btn btn-r" style="font-size:12px;padding:6px 12px" onclick="${type==="open"?"rstT":"rstC"}('${curTab}')">إعادة تعيين</button>
+</div>
+<div class="card">${cur.map((t,i)=>`<label class="chk ${t.d?"dn":""}" onclick="${togName}('${curTab}',${i})"><input type="checkbox" ${t.d?"checked":""} onclick="event.preventDefault()"/><span class="chk-lb">${t.l}</span>${t.t?`<span class="chk-tm">${fmtT(t.t)}</span>`:""}</label>`).join("")}</div>
+${type==="close"&&totPct===100?`<div class="card" style="background:#e8f5e9;border:2px solid #3D6B47;text-align:center"><div style="font-size:28px;margin-bottom:6px">🎉</div><div style="font-size:15px;font-weight:800;color:#2A4F32;margin-bottom:10px">تم إغلاق الفعالية بالكامل!</div><button class="btn btn-g" onclick="saveArch()">🗂️ حفظ تقرير اليوم في الأرشيف</button></div>`:""}`;
+}
+
+function pgOpen(){
+  return`<div class="pg-t">أوبن تاسك ✅</div><div class="pg-s">قائمة مهام فتح الفعالية</div>${chkList(S.tasks,"open")}`;
+}
+function pgClose(){
+  return`<div class="pg-t">كلوز تاسك 🔒</div><div class="pg-s">قائمة مهام إغلاق الفعالية</div>
+<div class="banner close-bn" style="margin-bottom:14px">
+  <div style="font-size:14px;font-weight:800">نسبة الإغلاق</div>
+  <div style="font-size:28px;font-weight:900">${pctC()}%</div>
+</div>
+<div class="pbar"><div class="pfill" style="width:${pctC()}%;background:#7A3B1E"></div></div>
+${chkList(S.close,"close")}`;
+}
+
+function pgAtt(){
+  return`<div class="pg-t">الحضور والانصراف 👥</div><div class="pg-s">سجّل حضور وانصراف الموظفين</div>
+${S.staff.map(e=>{const r=S.att[e.id]||{};const pr=r.in&&!r.out;const lf=r.in&&r.out;return`<div class="att-c" style="border-right-color:${e.color}">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:6px">
+  <div><div style="font-size:15px;font-weight:800">${e.name}</div><div style="font-size:11px;color:#888">${e.role} | ${e.zone}</div></div>
+  <span style="background:${pr?"#2e7d32":lf?"#555":"#bbb"}22;color:${pr?"#2e7d32":lf?"#555":"#bbb"};border:1px solid ${pr?"#2e7d32":lf?"#555":"#bbb"}44;border-radius:18px;padding:2px 9px;font-size:11px;font-weight:700">${pr?"حاضر ✅":lf?"انصرف":"غائب"}</span>
+</div>
+<div class="att3">
+  <div class="abox" style="background:#f1f8e9"><div class="abox-l">الحضور</div><div class="abox-v" style="color:#2A4F32">${fmtT(r.in)}</div></div>
+  <div class="abox" style="background:#fff3e0"><div class="abox-l">الانصراف</div><div class="abox-v" style="color:#E65100">${fmtT(r.out)}</div></div>
+  <div class="abox" style="background:#e8eaf6"><div class="abox-l">المدة</div><div class="abox-v" style="color:#3949AB">${fmtD(r)}</div></div>
+</div>
+<div class="att-btns">
+  <button class="btn" style="background:${r.in&&!r.out?"#eee":"#3D6B47"};color:${r.in&&!r.out?"#aaa":"#fff"}" ${r.in&&!r.out?"disabled":""} onclick="recIn(${e.id})">تسجيل حضور</button>
+  <button class="btn" style="background:${!r.in||r.out?"#eee":"#D4651A"};color:${!r.in||r.out?"#aaa":"#fff"}" ${!r.in||r.out?"disabled":""} onclick="recOut(${e.id})">تسجيل انصراف</button>
+</div>
+<input class="inp" style="margin-top:9px;margin-bottom:0" placeholder="ملاحظة..." value="${r.note||""}" onblur="addNote(${e.id},this.value)"/>
+</div>`;}).join("")}`;
+}
+
+function pgZones(){
+  const sec=(t,z,c)=>`<div style="font-size:14px;font-weight:800;color:${c};margin-bottom:10px">${t}</div><div class="zg" style="margin-bottom:20px">${z.map(zn=>{const s=S.zones[zn.id]||"✅ جاهز";return`<div class="zc" style="border-right-color:${scol(s)};box-shadow:0 2px 8px rgba(0,0,0,.06)"><div style="font-size:13px;font-weight:800;margin-bottom:9px">${zn.name}</div><select class="zsel" style="color:${scol(s)};border-color:${scol(s)}44;background:${scol(s)}11" onchange="setZone('${zn.id}',this.value)">${STATUS_OPTS.map(o=>`<option ${s===o?"selected":""}>${o}</option>`).join("")}</select></div>`;}).join("")}</div>`;
+  return`<div class="pg-t">مناطق المزرعة 🗺️</div><div class="pg-s">متابعة حالة كل منطقة</div>${sec("داخل المزرعة",ZONES_IN,"#2A4F32")}${sec("خارج المزرعة",ZONES_OUT,"#7A3B1E")}`;
+}
+
+function pgInc(){
+  const allZ=[...ZONES_IN,...ZONES_OUT];
+  return`<div class="pg-t">البلاغات والتوثيق 📋</div><div class="pg-s">سجّل أي حدث أو ملاحظة</div>
+<button class="btn btn-g btn-full" onclick="set({incShow:!S.incShow})">${S.incShow?"إلغاء":"+ إضافة بلاغ / ملاحظة جديدة"}</button>
+${S.incShow?`<div class="card">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+  <div><div style="font-size:11px;color:#888;margin-bottom:4px">نوع البلاغ</div><select class="zsel" onchange="S.incType=this.value">${INC_TYPES.map(t=>`<option ${S.incType===t?"selected":""}>${t}</option>`).join("")}</select></div>
+  <div><div style="font-size:11px;color:#888;margin-bottom:4px">المنطقة</div><select class="zsel" onchange="S.incZone=this.value"><option value="">-- اختر --</option>${allZ.map(z=>`<option ${S.incZone===z.name?"selected":""}>${z.name}</option>`).join("")}</select></div>
+</div>
+<input class="inp" placeholder="المُبلّغ..." value="${S.incRep}" oninput="S.incRep=this.value"/>
+<textarea rows="3" placeholder="تفاصيل البلاغ..." oninput="S.incDesc=this.value">${S.incDesc}</textarea>
+<button class="btn btn-g" style="margin-top:10px" onclick="addInc()">حفظ البلاغ</button>
+</div>`:""}
+${S.inc.length===0?`<div style="text-align:center;color:#bbb;padding:36px;font-size:14px">لا توجد بلاغات</div>`:
+[...S.inc].reverse().map(i=>`<div class="inc-c" style="border-right-color:${tcol(i.type)}">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:7px">
+<div>
+  <span class="bdg" style="background:${tcol(i.type)}22;color:${tcol(i.type)};border:1px solid ${tcol(i.type)}44">${i.type}</span>
+  ${i.zone?`<span class="bdg" style="background:#eee;color:#888;margin-right:5px">${i.zone}</span>`:""}
+  <div style="font-size:13px;color:#333;margin-top:5px">${i.desc}</div>
+  <div style="font-size:10px;color:#aaa;margin-top:3px">${i.reporter?i.reporter+" • ":""}${new Date(i.ts).toLocaleString("ar-SA",{hour:"2-digit",minute:"2-digit",day:"numeric",month:"short"})}</div>
+</div>
+<button class="btn btn-r" style="font-size:11px;padding:5px 9px" onclick="delInc(${i.id})">حذف</button>
+</div></div>`).join("")}`;
+}
+
+function pgProto(){
+  return`<div class="pg-t">البروتوكولات والآليات 📖</div><div class="pg-s">دليل تشغيلي كامل</div>
+${S.proto.map((p,pi)=>`<div class="pt-c" style="border-right:5px solid ${p.color}">
+<button class="pt-h" onclick="set({openProto:S.openProto==='p${pi}'?null:'p${pi}'})">
+  <div style="display:flex;gap:10px;align-items:center"><span style="font-size:22px">${p.icon}</span><span style="font-size:14px;font-weight:800;color:#1C2B1E">${p.title}</span></div>
+  <span style="font-size:16px;color:${p.color}">${S.openProto==="p"+pi?"▲":"▼"}</span>
+</button>
+${S.openProto==="p"+pi?`<div class="pt-b"><ol style="padding-right:18px">${p.steps.map((s,i)=>`<li style="font-size:13px;color:#555;line-height:2;border-bottom:${i<p.steps.length-1?"1px dashed #eee":"none"};padding-bottom:3px">${s}</li>`).join("")}</ol></div>`:""}
+</div>`).join("")}`;
+}
+
+function pgRep(){
+  const rows=S.staff.map(e=>{const r=S.att[e.id]||{};return{name:e.name,role:e.role,in:fmtT(r.in),out:fmtT(r.out),dur:fmtD(r)};});
+  const ts=[{lb:"أوبن تاسك المزرعة",list:S.tasks.farm},{lb:"أوبن تاسك خارج",list:S.tasks.out},{lb:"مهام البوابة",list:S.tasks.gate},{lb:"مهام وسط اليوم",list:S.tasks.mid}];
+  const zi=zIssues();
+  return`<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:9px;margin-bottom:18px">
+<div><div class="pg-t">التقرير اليومي 📊</div><div class="pg-s">${fd()}</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+  <button class="btn btn-wa" onclick="shareReport()">📲 واتساب</button>
+  <button class="btn btn-g" onclick="saveArch()">🗂️ أرشيف</button>
+</div></div>
+<div class="banner">
+  <div style="font-size:18px;font-weight:900">مزرعة الليوان 🌿</div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap">
+    <div style="text-align:center"><div style="font-size:26px;font-weight:900">${pct()}%</div><div style="font-size:10px;opacity:.8">أوبن تاسك</div></div>
+    <div style="text-align:center"><div style="font-size:26px;font-weight:900">${pctC()}%</div><div style="font-size:10px;opacity:.8">كلوز تاسك</div></div>
+    <div style="text-align:center"><div style="font-size:26px;font-weight:900">${present()}</div><div style="font-size:10px;opacity:.8">حضروا</div></div>
+    <div style="text-align:center"><div style="font-size:26px;font-weight:900">${todayInc().length}</div><div style="font-size:10px;opacity:.8">بلاغات</div></div>
+  </div>
+</div>
+<div class="card"><div style="font-size:14px;font-weight:800;color:#2A4F32;margin-bottom:12px">ملخص المهام</div>
+${ts.map(({lb,list})=>{const d=list.filter(t=>t.d).length;const p=list.length?Math.round(d/list.length*100):0;return`<div class="rrow"><span>${lb}</span><div style="display:flex;align-items:center;gap:9px"><div style="background:#e8f5e9;border-radius:50px;height:5px;width:90px;overflow:hidden"><div style="width:${p}%;height:100%;background:#3D6B47"></div></div><span style="font-size:12px;font-weight:700;color:#2A4F32">${d}/${list.length}</span></div></div>`;}).join("")}</div>
+<div class="card" style="overflow-x:auto"><div style="font-size:14px;font-weight:800;color:#2A4F32;margin-bottom:12px">سجل الحضور</div>
+<table><thead><tr style="background:#f1f8e9">${["الموظف","الدور","الحضور","الانصراف","المدة"].map(h=>`<th>${h}</th>`).join("")}</tr></thead>
+<tbody>${rows.map(r=>`<tr><td style="font-weight:700">${r.name}</td><td style="color:#888">${r.role}</td><td style="color:#2e7d32;font-weight:700">${r.in}</td><td style="color:#E65100;font-weight:700">${r.out}</td><td style="color:#3949AB">${r.dur}</td></tr>`).join("")}</tbody></table></div>
+${todayInc().length?`<div class="card"><div style="font-size:14px;font-weight:800;color:#D4651A;margin-bottom:10px">بلاغات اليوم (${todayInc().length})</div>${todayInc().map(i=>`<div class="rrow"><span><b style="color:#D4651A">[${i.type}]</b> ${i.zone?i.zone+": ":""} ${i.desc}</span></div>`).join("")}</div>`:""}
+${zi.length?`<div class="card"><div style="font-size:14px;font-weight:800;color:#6a1b9a;margin-bottom:10px">مناطق تحتاج متابعة</div>${zi.map(z=>`<div class="rrow"><span style="font-weight:700">${z.name}</span><span style="color:#D4651A">${S.zones[z.id]}</span></div>`).join("")}</div>`:""}`;
+}
+
+function pgArch(){
+  const keys=Object.keys(S.arch).sort().reverse();
+  return`<div class="pg-t">أرشيف التقارير 🗂️</div><div class="pg-s">جميع التقارير اليومية المحفوظة</div>
+${keys.length===0?`<div style="text-align:center;padding:50px;color:#bbb"><div style="font-size:44px;margin-bottom:14px">🗂️</div><div style="font-size:15px;font-weight:700">لا توجد تقارير محفوظة</div><div style="font-size:12px;margin-top:7px">اضغط "أرشيف" من صفحة التقرير في نهاية كل يوم</div></div>`:
+keys.map(dk=>{const r=S.arch[dk];const op=S.archOpen===dk;return`<div class="arch-c ${op?"op":""}">
+<div class="arch-h" onclick="set({archOpen:S.archOpen==='${dk}'?null:'${dk}'})">
+  <div style="display:flex;gap:12px;align-items:center">
+    <div style="background:#f1f8e9;border-radius:9px;padding:7px 12px;text-align:center"><div style="font-size:16px;font-weight:900;color:#2A4F32">${r.pct}%</div><div style="font-size:9px;color:#888">إنجاز</div></div>
+    <div><div style="font-size:14px;font-weight:800">${dk}</div><div style="font-size:11px;color:#888;margin-top:2px">👥 ${r.present} حضروا • ⚠️ ${r.incCount} بلاغات</div></div>
+  </div>
+  <div style="display:flex;gap:7px;align-items:center">
+    <button class="btn btn-wa" style="font-size:11px;padding:6px 10px" onclick="event.stopPropagation();shareWA(['🌿 مزرعة الليوان — تقرير ${dk}','✅ إنجاز: ${r.pct}%','🔒 كلوز: ${r.pctC||0}%','👥 حضروا: ${r.present}','⚠️ بلاغات: ${r.incCount}','_نظام مزرعة الليوان_ 🌿'].join('\\n'))">📲</button>
+    <button class="btn btn-r" style="font-size:11px;padding:6px 9px" onclick="event.stopPropagation();if(confirm('تأكيد الحذف؟')){const a={...S.arch};delete a['${dk}'];setSv('arch','lw_ar',a);}">🗑️</button>
+    <span style="font-size:16px;color:#3D6B47">${op?"▲":"▼"}</span>
+  </div>
+</div>
+${op?`<div style="padding:0 18px 16px;border-top:1px solid #f0f0f0">
+  ${r.ts?`<div style="font-size:12px;font-weight:800;color:#2A4F32;margin:12px 0 7px">ملخص المهام</div>${r.ts.map(t=>`<div class="rrow"><span>${t.lb}</span><span style="font-weight:700;color:#2A4F32">${t.d}/${t.tot}</span></div>`).join("")}`:""}
+  ${r.rows?`<div style="font-size:12px;font-weight:800;color:#1A5276;margin:12px 0 7px">الحضور</div>${r.rows.map(rw=>`<div class="rrow"><span style="font-weight:700">${rw.name}</span><span style="color:${rw.in==="—"?"#bbb":"#555"}">${rw.in==="—"?"غائب":rw.in+" ← "+rw.out+" ("+rw.dur+")"}</span></div>`).join("")}`:""}
+</div>`:""}
+</div>`;}).join("")}`;
+}
+
+function pgSet(){
+  const tabs=[{k:"staff",lb:"👥 الموظفين"},{k:"proto",lb:"📖 الآليات"},{k:"tasks",lb:"✅ أوبن تاسك"},{k:"close",lb:"🔒 كلوز تاسك"},{k:"zones",lb:"🗺️ المناطق"},{k:"mech",lb:"🔧 آليات الرئيسية"}];
+  return`<div class="pg-t">الإعدادات ⚙️</div><div class="pg-s">تعديل الموظفين والمهام والآليات والمناطق</div>
+<div class="tabs">${tabs.map(t=>`<button class="tab ${S.sTab===t.k?"on":""}" onclick="set({sTab:'${t.k}'})">${t.lb}</button>`).join("")}</div>
+
+${S.sTab==="staff"?`
+<button class="btn btn-g btn-full" onclick="set({addStaff:!S.addStaff})">${S.addStaff?"إلغاء":"+ إضافة موظف جديد"}</button>
+${S.addStaff?`<div class="card"><input class="inp" placeholder="اسم الموظف *" oninput="S.newSt.name=this.value"/><input class="inp" placeholder="الدور (مشرف، داخلي، خارجي)" oninput="S.newSt.role=this.value"/><input class="inp" placeholder="المنطقة" oninput="S.newSt.zone=this.value"/><button class="btn btn-g" onclick="addStaff()">✅ حفظ</button></div>`:""}
+${S.staff.map(e=>`<div class="set-e" style="border-right:5px solid ${e.color}">
+${S.editSt&&S.editSt.id===e.id?`<input class="inp" value="${S.editSt.name}" oninput="S.editSt.name=this.value"/><input class="inp" value="${S.editSt.role}" oninput="S.editSt.role=this.value"/><input class="inp" value="${S.editSt.zone}" oninput="S.editSt.zone=this.value"/>
+<div style="display:flex;gap:8px"><button class="btn btn-g" style="flex:1" onclick="updStaff()">حفظ</button><button class="btn" style="flex:1;background:#eee;color:#555" onclick="set({editSt:null})">إلغاء</button></div>`:
+`<div style="display:flex;justify-content:space-between;align-items:center">
+<div><div style="font-size:14px;font-weight:800">${e.name}</div><div style="font-size:11px;color:#888">${e.role} | ${e.zone}</div></div>
+<div style="display:flex;gap:7px"><button class="btn btn-e" onclick="set({editSt:{...S.staff.find(x=>x.id===${e.id})}})">✏️ تعديل</button><button class="btn btn-r" onclick="delStaff(${e.id})">🗑️</button></div>
+</div>`}</div>`).join("")}`:""}
+
+${S.sTab==="proto"?`
+<button class="btn btn-g btn-full" onclick="set({addProto:!S.addProto})">${S.addProto?"إلغاء":"+ إضافة آلية جديدة"}</button>
+${S.addProto?`<div class="card"><div style="display:flex;gap:9px;margin-bottom:9px"><input class="inp" style="width:52px;text-align:center;font-size:18px;margin-bottom:0" value="${S.newPr.icon}" oninput="S.newPr.icon=this.value"/><input class="inp" style="flex:1;margin-bottom:0" placeholder="اسم الآلية *" oninput="S.newPr.title=this.value"/></div>
+<div style="font-size:11px;color:#888;font-weight:700;margin-bottom:7px">الخطوات:</div>
+${S.newPr.steps.map((s,i)=>`<div style="display:flex;gap:7px;margin-bottom:7px"><input class="inp" style="flex:1;margin-bottom:0" placeholder="الخطوة ${i+1}" value="${s}" oninput="S.newPr.steps[${i}]=this.value"/>${S.newPr.steps.length>1?`<button class="btn btn-r" style="padding:0 9px" onclick="S.newPr.steps.splice(${i},1);render()">✕</button>`:""}</div>`).join("")}
+<button class="btn" style="width:100%;background:#f1f8e9;border:1px dashed #3D6B47;color:#3D6B47;margin-bottom:9px" onclick="S.newPr.steps.push('');render()">+ خطوة</button>
+<button class="btn btn-g" onclick="addProto()">✅ حفظ الآلية</button></div>`:""}
+${S.proto.map((p,pi)=>`<div class="pt-c" style="border-right:5px solid ${p.color}">
+<div style="padding:13px 17px;display:flex;justify-content:space-between;align-items:center">
+<div style="display:flex;gap:9px;align-items:center;flex:1"><span style="font-size:20px">${p.icon}</span>
+${S.editProto===pi?`<input class="inp" style="flex:1;margin-bottom:0;font-weight:700" value="${p.title}" oninput="updProtoTitle(${pi},this.value)"/>`:`<span style="font-size:13px;font-weight:800">${p.title}</span>`}</div>
+<div style="display:flex;gap:7px;margin-right:9px">
+<button class="btn btn-e" style="font-size:11px;padding:6px 11px" onclick="set({editProto:S.editProto===${pi}?null:${pi}})">${S.editProto===pi?"✅ تم":"✏️ تعديل"}</button>
+<button class="btn btn-r" style="font-size:11px;padding:6px 9px" onclick="delProto(${pi})">🗑️</button>
+</div></div>
+${S.editProto===pi?`<div style="padding:0 17px 15px">
+${p.steps.map((s,si)=>`<div style="display:flex;gap:7px;margin-bottom:7px"><span style="color:#888;font-size:11px;min-width:18px;padding-top:9px">${si+1}</span><input class="inp" style="flex:1;margin-bottom:0" value="${s.replace(/"/g,'&quot;')}" oninput="updProtoStep(${pi},${si},this.value)"/><button class="btn btn-r" style="padding:0 9px;font-size:13px" onclick="delStep(${pi},${si})">✕</button></div>`).join("")}
+<button class="btn" style="width:100%;background:#f1f8e9;border:1px dashed #3D6B47;color:#3D6B47" onclick="addStep(${pi})">+ خطوة</button>
+</div>`:""}
+</div>`).join("")}`:""}
+
+${S.sTab==="tasks"?`
+${[{k:"farm",lb:"🌿 المزرعة (داخل)"},{k:"out",lb:"🅿️ خارج المزرعة"},{k:"gate",lb:"🚪 البوابة"},{k:"mid",lb:"☀️ وسط اليوم"}].map(sec=>`
+<div class="card"><div style="font-size:14px;font-weight:800;color:#2A4F32;margin-bottom:12px">${sec.lb}</div>
+${S.tasks[sec.k].map((t,i)=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:7px;padding:5px 0;border-bottom:1px dashed #eee"><input class="inp" style="flex:1;margin-bottom:0" value="${t.l.replace(/"/g,'&quot;')}" oninput="updTask('${sec.k}',${i},this.value)"/><button class="btn btn-r" style="padding:7px 9px;flex-shrink:0" onclick="delTask('${sec.k}',${i})">🗑️</button></div>`).join("")}
+<button class="btn" style="width:100%;background:#f1f8e9;border:1px dashed #3D6B47;color:#3D6B47;margin-top:7px" onclick="addTask('${sec.k}')">+ إضافة مهمة</button></div>`).join("")}`:""}
+
+${S.sTab==="close"?`
+${[{k:"farm",lb:"🌿 كلوز تاسك المزرعة"},{k:"out",lb:"🅿️ كلوز تاسك خارج"},{k:"gate",lb:"🚪 إغلاق البوابة"},{k:"mid",lb:"🔒 الإغلاق النهائي"}].map(sec=>`
+<div class="card"><div style="font-size:14px;font-weight:800;color:#7A3B1E;margin-bottom:12px">${sec.lb}</div>
+${S.close[sec.k].map((t,i)=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:7px;padding:5px 0;border-bottom:1px dashed #eee"><input class="inp" style="flex:1;margin-bottom:0" value="${t.l.replace(/"/g,'&quot;')}" oninput="updClose('${sec.k}',${i},this.value)"/><button class="btn btn-r" style="padding:7px 9px;flex-shrink:0" onclick="delClose('${sec.k}',${i})">🗑️</button></div>`).join("")}
+<button class="btn" style="width:100%;background:#fdf0e8;border:1px dashed #7A3B1E;color:#7A3B1E;margin-top:7px" onclick="addClose('${sec.k}')">+ إضافة مهمة إغلاق</button></div>`).join("")}`:""}
+
+${S.sTab==="zones"?`
+<div class="info-box" style="background:#e8f5e9;border:1px solid #a5d6a7;color:#2A4F32">💡 تعديل أسماء المناطق يؤثر على جميع أقسام النظام</div>
+<div class="card"><div style="font-size:14px;font-weight:800;color:#2A4F32;margin-bottom:12px">📍 داخل المزرعة</div>
+${ZONES_IN.map((z,i)=>`<div style="display:flex;gap:9px;align-items:center;margin-bottom:8px;padding:5px 0;border-bottom:1px dashed #eee"><span style="font-size:11px;color:#888;font-weight:700;min-width:24px">${z.id}</span><input class="inp" style="flex:1;margin-bottom:0" value="${z.name}" oninput="ZONES_IN[${i}].name=this.value;render()"/></div>`).join("")}</div>
+<div class="card"><div style="font-size:14px;font-weight:800;color:#7A3B1E;margin-bottom:12px">🅿️ خارج المزرعة</div>
+${ZONES_OUT.map((z,i)=>`<div style="display:flex;gap:9px;align-items:center;margin-bottom:8px;padding:5px 0;border-bottom:1px dashed #eee"><span style="font-size:11px;color:#888;font-weight:700;min-width:28px">${z.id}</span><input class="inp" style="flex:1;margin-bottom:0" value="${z.name}" oninput="ZONES_OUT[${i}].name=this.value;render()"/></div>`).join("")}</div>`:""}
+
+${S.sTab==="mech"?`
+<div class="info-box" style="background:#e8f5e9;border:1px solid #a5d6a7;color:#2A4F32">💡 هذه الآليات تظهر في لوحة التحكم الرئيسية</div>
+${S.mech.map((m,mi)=>`<div class="set-e" style="border-right:5px solid #3D6B47">
+<div style="display:flex;gap:9px;align-items:center;margin-bottom:9px">
+<input value="${m.icon}" oninput="updMech(${mi},'icon',this.value)" style="width:48px;border:1px solid #ddd;border-radius:8px;padding:7px;font-size:18px;text-align:center;outline:none"/>
+<input value="${m.label}" oninput="updMech(${mi},'label',this.value)" class="inp" style="flex:1;margin-bottom:0" placeholder="اسم الآلية"/>
+<button class="btn btn-r" style="padding:7px 9px;flex-shrink:0" onclick="delMech(${mi})">🗑️</button>
+</div>
+<div style="display:flex;gap:8px">
+<input value="${m.owner}" oninput="updMech(${mi},'owner',this.value)" class="inp" style="flex:1;margin-bottom:0" placeholder="المسؤول"/>
+<input value="${m.time}" oninput="updMech(${mi},'time',this.value)" class="inp" style="flex:1;margin-bottom:0" placeholder="الوقت"/>
+</div></div>`).join("")}
+<button class="btn btn-g btn-full" onclick="addMech()">+ إضافة آلية جديدة</button>`:""}`;
+}
+
+// ══════════════ MAIN RENDER ══════════════
+function render(){
+  const pages={dash:pgDash,open:pgOpen,close:pgClose,att:pgAtt,zones:pgZones,inc:pgInc,proto:pgProto,rep:pgRep,arch:pgArch,set:pgSet};
+  const content=pages[S.pg]?pages[S.pg]():"";
+  document.getElementById("app").innerHTML=`
+<div class="hdr">
+  <div><div class="hdr-t">🌿 مزرعة الليوان</div><div class="hdr-s">نظام الإدارة التشغيلية</div></div>
+  <div class="clk" id="clk">${ft()}<br/><span style="font-size:10px;opacity:.7">${gday()}</span></div>
+</div>
+<div class="wrap">
+  <nav class="sb">
+    <div style="padding:0 14px 10px;font-size:10px;color:#bbb;letter-spacing:1px;font-weight:700">MENU</div>
+    ${PAGES.map(p=>`<button class="nb ${S.pg===p.k?"on":""}" onclick="nav('${p.k}')"><span class="nb-ic">${p.ic}</span><span class="nb-lb">${p.lb}</span></button>`).join("")}
+    <div style="padding:14px;font-size:10px;color:#bbb;text-align:center;margin-top:auto">موسم 2025<br/>يونيو • يوليو • أغسطس</div>
+  </nav>
+  <main class="main">${content}</main>
+</div>
+<nav class="bnav">
+  ${PAGES.map(p=>`<button class="bnb ${S.pg===p.k?"on":""}" onclick="nav('${p.k}')"><span class="bnb-ic">${p.ic}</span><span class="bnb-lb">${p.lb}</span></button>`).join("")}
+</nav>`;
+}
+
+setInterval(()=>{const c=document.getElementById("clk");if(c)c.innerHTML=ft()+"<br/><span style='font-size:10px;opacity:.7'>"+gday()+"</span>";},30000);
+render();
+</script>
+</body>
+</html>
