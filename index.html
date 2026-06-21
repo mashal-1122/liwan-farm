@@ -135,6 +135,29 @@ function sv(k,v){
     DB.collection(CLOUD_COLLECTION).doc(k).set({v:v,_u:Date.now()}).catch(e=>console.warn("⬆️ sync",e));
   }
 }
+// ── كتابة جزئية آمنة للتعديل المتزامن: تحفظ فقط الجزء المتغيّر فما يضيع تعديل موظف ثاني ──
+function svMerge(lk, partialV){
+  if(DB && !applyingRemote && SYNC_KEYS[lk]){
+    DB.collection(CLOUD_COLLECTION).doc(lk).set({v:partialV,_u:Date.now()},{merge:true}).catch(e=>console.warn("⬆️ merge",e));
+  }
+}
+function setSvMerge(stateKey, lk, fullVal, partialV){
+  S[stateKey]=fullVal;
+  try{localStorage.setItem(lk,JSON.stringify(fullVal));}catch{}
+  svMerge(lk, partialV);
+  render();
+}
+// معاملة ذرّية: تعيد قراءة آخر نسخة من السحابة ثم تطبّق تغييرنا فوقها (صفر فقدان حتى مع التعديل المتزامن)
+function svTx(lk, applyToCloud){
+  if(!DB || applyingRemote || !SYNC_KEYS[lk]) return;
+  const stateKey=SYNC_KEYS[lk], ref=DB.collection(CLOUD_COLLECTION).doc(lk);
+  DB.runTransaction(tx=>tx.get(ref).then(snap=>{
+    const cur=(snap.exists && snap.data() && snap.data().v!==undefined)?snap.data().v:JSON.parse(JSON.stringify(S[stateKey]));
+    applyToCloud(cur);
+    tx.set(ref,{v:cur,_u:Date.now()});
+  })).catch(e=>console.warn("⬆️ tx",e));
+}
+function FV(){return firebase.firestore.FieldValue;}
 function mkT(arr){return arr.map(l=>({l,d:false,t:null}));}
 
 // ══════════════ STATE ══════════════
@@ -181,16 +204,16 @@ function nav(p){set({pg:p});}
 function shareWA(txt){window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank");}
 
 // ══════════════ ACTIONS ══════════════
-function togT(list,i){const t=[...S.tasks[list]];t[i]={...t[i],d:!t[i].d,t:!t[i].d?new Date().toISOString():null};setSv("tasks","lw_t",{...S.tasks,[list]:t});}
-function rstT(list){setSv("tasks","lw_t",{...S.tasks,[list]:S.tasks[list].map(x=>({...x,d:false,t:null}))});}
-function togC(list,i){const t=[...S.close[list]];t[i]={...t[i],d:!t[i].d,t:!t[i].d?new Date().toISOString():null};setSv("close","lw_c",{...S.close,[list]:t});}
-function rstC(list){setSv("close","lw_c",{...S.close,[list]:S.close[list].map(x=>({...x,d:false,t:null}))});}
-function recIn(id){const a={...S.att,[id]:{...(S.att[id]||{}),in:new Date().toISOString(),out:null}};setSv("att","lw_a",a);}
-function recOut(id){const a={...S.att,[id]:{...(S.att[id]||{}),out:new Date().toISOString()}};setSv("att","lw_a",a);}
-function addNote(id,n){const a={...S.att,[id]:{...(S.att[id]||{}),note:n}};setSv("att","lw_a",a);}
-function addInc(){if(!S.incDesc.trim())return;const i=[...S.inc,{type:S.incType,zone:S.incZone,desc:S.incDesc,reporter:S.incRep,ts:new Date().toISOString(),id:Date.now()}];setSv("inc","lw_i",i);set({incShow:false,incType:"ملاحظة",incZone:"",incDesc:"",incRep:""});}
-function delInc(id){setSv("inc","lw_i",S.inc.filter(i=>i.id!==id));}
-function setZone(id,v){const z={...S.zones,[id]:v};setSv("zones","lw_z",z);}
+function togT(list,i){const t=[...S.tasks[list]];t[i]={...t[i],d:!t[i].d,t:!t[i].d?new Date().toISOString():null};S.tasks={...S.tasks,[list]:t};try{localStorage.setItem("lw_t",JSON.stringify(S.tasks));}catch{}render();const ni=t[i];svTx("lw_t",cur=>{if(!cur[list])cur[list]=t;else cur[list][i]=ni;});}
+function rstT(list){const t=S.tasks[list].map(x=>({...x,d:false,t:null}));setSvMerge("tasks","lw_t",{...S.tasks,[list]:t},{[list]:t});}
+function togC(list,i){const t=[...S.close[list]];t[i]={...t[i],d:!t[i].d,t:!t[i].d?new Date().toISOString():null};S.close={...S.close,[list]:t};try{localStorage.setItem("lw_c",JSON.stringify(S.close));}catch{}render();const ni=t[i];svTx("lw_c",cur=>{if(!cur[list])cur[list]=t;else cur[list][i]=ni;});}
+function rstC(list){const t=S.close[list].map(x=>({...x,d:false,t:null}));setSvMerge("close","lw_c",{...S.close,[list]:t},{[list]:t});}
+function recIn(id){const rec={...(S.att[id]||{}),in:new Date().toISOString(),out:null};setSvMerge("att","lw_a",{...S.att,[id]:rec},{[id]:rec});}
+function recOut(id){const rec={...(S.att[id]||{}),out:new Date().toISOString()};setSvMerge("att","lw_a",{...S.att,[id]:rec},{[id]:rec});}
+function addNote(id,n){const rec={...(S.att[id]||{}),note:n};setSvMerge("att","lw_a",{...S.att,[id]:rec},{[id]:rec});}
+function addInc(){if(!S.incDesc.trim())return;const inc={type:S.incType,zone:S.incZone,desc:S.incDesc,reporter:S.incRep,ts:new Date().toISOString(),id:Date.now()};const arr=[...S.inc,inc];S.inc=arr;try{localStorage.setItem("lw_i",JSON.stringify(arr));}catch{}if(DB&&!applyingRemote){DB.collection(CLOUD_COLLECTION).doc("lw_i").set({v:FV().arrayUnion(inc),_u:Date.now()},{merge:true}).catch(e=>console.warn("⬆️ inc",e));}set({incShow:false,incType:"ملاحظة",incZone:"",incDesc:"",incRep:""});}
+function delInc(id){const obj=S.inc.find(i=>i.id===id);const arr=S.inc.filter(i=>i.id!==id);S.inc=arr;try{localStorage.setItem("lw_i",JSON.stringify(arr));}catch{}if(DB&&!applyingRemote&&obj){DB.collection(CLOUD_COLLECTION).doc("lw_i").set({v:FV().arrayRemove(obj),_u:Date.now()},{merge:true}).catch(e=>console.warn("⬆️ inc",e));}render();}
+function setZone(id,v){const z={...S.zones,[id]:v};setSvMerge("zones","lw_z",z,{[id]:v});}
 function addStaff(){if(!S.newSt.name.trim())return;const e={id:Date.now(),name:S.newSt.name,role:S.newSt.role||"موظف",zone:S.newSt.zone||"عام",color:COLORS[S.staff.length%COLORS.length]};setSv("staff","lw_st",[...S.staff,e]);set({addStaff:false,newSt:{name:"",role:"",zone:""}});}
 function updStaff(){const st=S.staff.map(e=>e.id===S.editSt.id?S.editSt:e);setSv("staff","lw_st",st);set({editSt:null});}
 function delStaff(id){if(!confirm("تأكيد الحذف؟"))return;setSv("staff","lw_st",S.staff.filter(e=>e.id!==id));}
@@ -203,20 +226,26 @@ function updProtoTitle(pi,v){const p=S.proto.map((pr,i)=>i===pi?{...pr,title:v}:
 function updMech(mi,field,v){const m=S.mech.map((x,i)=>i===mi?{...x,[field]:v}:x);setSv("mech","lw_m",m);}
 function delMech(mi){if(!confirm("تأكيد الحذف؟"))return;setSv("mech","lw_m",S.mech.filter((_,i)=>i!==mi));}
 function addMech(){setSv("mech","lw_m",[...S.mech,{key:"n"+Date.now(),icon:"📌",label:"آلية جديدة",owner:"",time:""}]);}
-function updTask(list,i,v){const t=[...S.tasks[list]];t[i]={...t[i],l:v};setSv("tasks","lw_t",{...S.tasks,[list]:t});}
-function delTask(list,i){const t=S.tasks[list].filter((_,j)=>j!==i);setSv("tasks","lw_t",{...S.tasks,[list]:t});}
-function addTask(list){setSv("tasks","lw_t",{...S.tasks,[list]:[...S.tasks[list],{l:"مهمة جديدة",d:false,t:null}]});}
-function updClose(list,i,v){const t=[...S.close[list]];t[i]={...t[i],l:v};setSv("close","lw_c",{...S.close,[list]:t});}
-function delClose(list,i){const t=S.close[list].filter((_,j)=>j!==i);setSv("close","lw_c",{...S.close,[list]:t});}
-function addClose(list){setSv("close","lw_c",{...S.close,[list]:[...S.close[list],{l:"مهمة إغلاق جديدة",d:false,t:null}]});}
+function updTask(list,i,v){const t=[...S.tasks[list]];t[i]={...t[i],l:v};setSvMerge("tasks","lw_t",{...S.tasks,[list]:t},{[list]:t});}
+function delTask(list,i){const t=S.tasks[list].filter((_,j)=>j!==i);setSvMerge("tasks","lw_t",{...S.tasks,[list]:t},{[list]:t});}
+function addTask(list){const t=[...S.tasks[list],{l:"مهمة جديدة",d:false,t:null}];setSvMerge("tasks","lw_t",{...S.tasks,[list]:t},{[list]:t});}
+function updClose(list,i,v){const t=[...S.close[list]];t[i]={...t[i],l:v};setSvMerge("close","lw_c",{...S.close,[list]:t},{[list]:t});}
+function delClose(list,i){const t=S.close[list].filter((_,j)=>j!==i);setSvMerge("close","lw_c",{...S.close,[list]:t},{[list]:t});}
+function addClose(list){const t=[...S.close[list],{l:"مهمة إغلاق جديدة",d:false,t:null}];setSvMerge("close","lw_c",{...S.close,[list]:t},{[list]:t});}
 function updZoneName(arr,zi,v){arr[zi]={...arr[zi],name:v};render();}
 
 function saveArch(){
   const rows=S.staff.map(e=>{const r=S.att[e.id]||{};return{name:e.name,role:e.role,in:fmtT(r.in),out:fmtT(r.out),dur:fmtD(r)};});
   const ts=[{lb:"أوبن تاسك المزرعة",list:S.tasks.farm},{lb:"أوبن تاسك خارج",list:S.tasks.out},{lb:"مهام البوابة",list:S.tasks.gate},{lb:"مهام وسط اليوم",list:S.tasks.mid}].map(({lb,list})=>({lb,d:list.filter(t=>t.d).length,tot:list.length}));
   const dk=new Date().toLocaleDateString("ar-SA",{year:"numeric",month:"long",day:"numeric"});
-  const a={...S.arch,[dk]:{pct:pct(),pctC:pctC(),present:present(),incCount:todayInc().length,zIssues:zIssues().length,rows,ts,inc:todayInc(),saved:new Date().toISOString()}};
-  setSv("arch","lw_ar",a);alert("✅ تم حفظ تقرير اليوم في الأرشيف!");
+  const rep={pct:pct(),pctC:pctC(),present:present(),incCount:todayInc().length,zIssues:zIssues().length,rows,ts,inc:todayInc(),saved:new Date().toISOString()};
+  setSvMerge("arch","lw_ar",{...S.arch,[dk]:rep},{[dk]:rep});alert("✅ تم حفظ تقرير اليوم في الأرشيف!");
+}
+function delArch(dk){
+  if(!confirm("تأكيد الحذف؟"))return;
+  const a={...S.arch};delete a[dk];S.arch=a;try{localStorage.setItem("lw_ar",JSON.stringify(a));}catch{}
+  if(DB&&!applyingRemote){DB.collection(CLOUD_COLLECTION).doc("lw_ar").update(new firebase.firestore.FieldPath("v",dk),FV().delete()).catch(e=>console.warn("⬆️ arch",e));}
+  render();
 }
 
 function shareReport(){
@@ -389,7 +418,7 @@ keys.map(dk=>{const r=S.arch[dk];const op=S.archOpen===dk;return`<div class="arc
   </div>
   <div style="display:flex;gap:7px;align-items:center">
     <button class="btn btn-wa" style="font-size:11px;padding:6px 10px" onclick="event.stopPropagation();shareWA(['🌿 مزرعة الليوان — تقرير ${dk}','✅ إنجاز: ${r.pct}%','🔒 كلوز: ${r.pctC||0}%','👥 حضروا: ${r.present}','⚠️ بلاغات: ${r.incCount}','_نظام مزرعة الليوان_ 🌿'].join('\\n'))">📲</button>
-    <button class="btn btn-r" style="font-size:11px;padding:6px 9px" onclick="event.stopPropagation();if(confirm('تأكيد الحذف؟')){const a={...S.arch};delete a['${dk}'];setSv('arch','lw_ar',a);}">🗑️</button>
+    <button class="btn btn-r" style="font-size:11px;padding:6px 9px" onclick="event.stopPropagation();delArch('${dk}')">🗑️</button>
     <span style="font-size:16px;color:#3D6B47">${op?"▲":"▼"}</span>
   </div>
 </div>
