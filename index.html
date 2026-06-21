@@ -295,6 +295,7 @@ function chkList(list,type){
   const rst=type==="open"?rstT:rstC;
   return`
 <div class="tabs">${tabs.map(t=>`<button class="tab ${curTab===t.k?"on":""}" onclick="set({${type==="open"?"tTab":"cTab"}:'${t.k}'})">${t.lb}</button>`).join("")}</div>
+${type==="close"?(()=>{const op=(S.tasks[curTab]||[]).filter(t=>t.d);return op.length?`<div class="card" style="background:#fff7f0;border:1px solid #f4a261;padding:12px 15px"><div style="font-size:13px;font-weight:800;color:#D4651A;margin-bottom:8px">🔓 افتُتح اليوم — تأكد من إغلاقه (${op.length})</div>${op.map(t=>`<div style="font-size:12px;padding:5px 0;border-bottom:1px dashed #f4a261;color:#7A3B1E;display:flex;justify-content:space-between;gap:8px"><span>• ${t.l}</span>${t.t?`<span style="color:#bbb;font-size:10px">فُتح ${fmtT(t.t)}</span>`:""}</div>`).join("")}</div>`:"";})():""}
 <div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px">
   <div style="font-size:13px;font-weight:700;color:${col}">${dn} / ${cur.length} مهمة | إجمالي: ${totPct}%</div>
   <button class="btn btn-r" style="font-size:12px;padding:6px 12px" onclick="${type==="open"?"rstT":"rstC"}('${curTab}')">إعادة تعيين</button>
